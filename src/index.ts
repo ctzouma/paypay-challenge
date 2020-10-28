@@ -1,13 +1,7 @@
-import express from 'express';
-import bodyParser from 'body-parser'
+import app from './app';
 
-const app = express();
-const port = 8000;
-
-app.get('/', (req, res) => {
-    res.send('TS + Express test');
+const server = app.listen(app.get("port"), () => {
+    console.log(`App listening at http://localhost:${app.get("port")}`);
 });
 
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-});
+export default server;
