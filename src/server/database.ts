@@ -30,6 +30,9 @@ const db = new sqlite3.Database(source, (err) => {
                 hashPassword("user", hashedPassword => {
                     db.run(insert, ["user", hashedPassword, false]);
                 });
+                hashPassword("aharderpassword1234", hashedPassword => {
+                    db.run(insert, ["test", hashedPassword, false]);
+                });
             }
         })
     }

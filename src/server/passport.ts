@@ -51,7 +51,7 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/login');
+    return res.redirect('/');
 }
 
 const comparePassword = (candidatePassword: string, dbPassword: string, callback: (err: any, isMatch: any) => void) => {
