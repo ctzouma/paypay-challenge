@@ -3,10 +3,6 @@ import {hashPassword} from './passport';
 
 const source = 'database.db';
 
-const handleError = (res: RunResult) => {
-    
-}
-
 const db = new sqlite3.Database(source, (err) => {
     if (err) {
         console.error(`Failed opening database. Message: ${err.message}`);
@@ -38,12 +34,23 @@ const db = new sqlite3.Database(source, (err) => {
     }
 });
 
+// ### DB queries
+
+/**
+ * Get all Users
+ * @param callback 
+ */
 export const getUsers = (callback: (err: Error, users: any) => void) => {
     db.all('SELECT * from user', (err: Error, users: any) => {
         callback(err, users);
     });
 }
 
+/**
+ * Get a specific user by username
+ * @param username 
+ * @param callback 
+ */
 export const getUserByName = (username: string, callback: (err: Error, user: any) => void) => {
     let sql = 'SELECT * from user where username = ?';
     let params = [username];
@@ -52,6 +59,11 @@ export const getUserByName = (username: string, callback: (err: Error, user: any
     });
 }
 
+/**
+ * Get a specific user by ID
+ * @param id 
+ * @param callback 
+ */
 export const getUserById = (id: number, callback: (err: Error, user: any) => void) => {
     let sql = 'SELECT * from user where id = ?';
     let params = [id];

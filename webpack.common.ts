@@ -14,7 +14,7 @@ const config: webpack.Configuration = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'PayPay Challenge',
-            template: './src/public/index.html',
+            template: './src/app/index.html',
             filename: 'index.html'
         })
     ],

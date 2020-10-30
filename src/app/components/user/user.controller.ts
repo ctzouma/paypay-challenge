@@ -7,6 +7,7 @@ export class UserController implements angular.IComponentController {
     constructor(private $log: angular.ILogService, private $location: angular.ILocationService,
         private userService: UserService) {
         $log.debug('UserController constr');
+        // If the user isn't authenticated, display the login module
         if (!userService.isAuthenticated()) {
             $location.url('/login');
         }

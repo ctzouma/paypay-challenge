@@ -12,12 +12,18 @@ export class LoginController implements angular.IComponentController {
         $log.debug('LoginController constr');
     }
 
+    /**
+     * Login Form submission
+     */
     onFormSubmit(): void {
+        /* If the form is valid and hasn't been submitted, or if there was an error in logging in but the form is valid
+        allow submission */
         if (this.loginForm.form.$valid && (!this.loginForm.form.$submitted || this.loginError)) {
             this.loginError = false;
             this.apiService.login(this.loginForm.username, this.loginForm.password)
                 .then((success) => {
                     if (!success) {
+                        // If a login fails, focus on the username input
                         this.loginForm.form.username.$$element[0].focus();
                         this.loginError = true;
                     } else {

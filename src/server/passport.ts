@@ -9,7 +9,6 @@ passport.serializeUser<any, any>((user, done) => {
     done(null, user.id);
 });
 
-// Issue where req.user not persisting solved like this: https://github.com/jaredhanson/passport/issues/244
 passport.deserializeUser((id: number, done) => {
     db.getUserById(id, (err, user) => {
         if (err) done(err, false);
@@ -17,6 +16,9 @@ passport.deserializeUser((id: number, done) => {
     });
 });
 
+/**
+ * Passport setting up the user to use in its session
+ */
 passport.use(new passportLocal.Strategy((username, password, done) => {
     db.getUserByName(username, (err, user) => {
         if (err) return done(err);
@@ -29,6 +31,11 @@ passport.use(new passportLocal.Strategy((username, password, done) => {
     });
 }));
 
+/**
+ * Hash the User's credential (password). Uses salt.
+ * @param credential {string} - The user's credential
+ * @param callback 
+ */
 export const hashPassword = (credential: string, callback: (res: string) => void) => {
     bcrypt.genSalt(10, (err, salt) => {
         if (err) {
@@ -47,13 +54,25 @@ export const hashPassword = (credential: string, callback: (res: string) => void
     });
 };
 
+/**
+ * Middleware to check authentication before piping through to actual requests
+ * @param req {Request} - The current request
+ * @param res {Response} - Response object
+ * @param next {NextFunction} - Next callback function
+ */
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
         return next();
     }
-    return res.redirect('/');
+    return res.redirect('/'); // If not authenticated, redirect to client content base. Let client deal with further routing
 }
 
+/**
+ * Check password against value in the Database
+ * @param candidatePassword {string} - Password entered by user
+ * @param dbPassword {string} - Hashed password stored in Database
+ * @param callback 
+ */
 const comparePassword = (candidatePassword: string, dbPassword: string, callback: (err: any, isMatch: any) => void) => {
     bcrypt.compare(candidatePassword, dbPassword, (err: Error, isMatch: boolean) => {
         callback(err, isMatch);
