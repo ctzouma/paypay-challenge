@@ -4,7 +4,7 @@ import webpack from 'webpack';
 
 const config: webpack.Configuration = {
     entry: {
-        app: './src/app/index.ts'
+        app: './src/app/app.module.ts'
     },
     output: {
         publicPath: '/',
@@ -33,6 +33,16 @@ const config: webpack.Configuration = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                vendor: {
+                    filename: 'vendor.js'
+                }
+            }
+        }
     }
 };
 

@@ -13,7 +13,7 @@ const config: webpack.Configuration = merge(common, {
         historyApiFallback: true
     },
     entry: {
-        app: ['webpack-hot-middleware/client', './src/app/index.ts']
+        app: ['webpack-hot-middleware/client', './src/app/app.module.ts']
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
@@ -26,7 +26,8 @@ const config: webpack.Configuration = merge(common, {
                     'style-loader',
                     'css-loader',
                     'sass-loader'
-                ]
+                ],
+                sideEffects: true
             }
         ]
     }

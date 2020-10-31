@@ -1,4 +1,4 @@
-import sqlite3, { RunResult } from 'sqlite3';
+import sqlite3 from 'sqlite3';
 import {hashPassword} from './passport';
 
 const source = 'database.db';

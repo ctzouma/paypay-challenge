@@ -1,7 +1,42 @@
-<form name = "$ctrl.loginForm.form" method = "POST" autocomplete = "off" novalidate>
-    <input ng-model = "$ctrl.loginForm.username" id = "username" type = "text" name = "username" required autofocus>
-    <input ng-model = "$ctrl.loginForm.password" id = "password" type = "password" name = "password" autocomplete = "on" required>
-    <div>
-        <button type = "submit" data-ng-disabled = "$ctrl.loginForm.form.$submitted && !$ctrl.loginError" data-ng-click = "$ctrl.onFormSubmit()">Log in</button>
+<div class = "login-content-container">
+    <div class = "login-form-container">
+        <div class = "login-form">
+                <form name = "$ctrl.loginForm.form" method = "POST" autocomplete = "off" novalidate>
+                    <div class = "login-form-element">
+                        <label for = "username">Username</label>
+                        <input ng-model = "$ctrl.loginForm.username" id = "username" type = "text" name = "username" required autofocus>
+                        <span ng-messages = "$ctrl.loginForm.form.username.$error" class = "login-element-error">
+                            <div ng-show = "$ctrl.loginForm.form.username.$invalid && 
+                                        ($ctrl.loginForm.form.$submitted || $ctrl.loginForm.form.username.$dirty)">
+                                <span ng-message = "required">This field is required.</span>
+                            </div>
+                        </span>
+                    </div>
+                    <div class = "login-form-element">
+                        <label for = "password">Password</label>
+                        <input ng-model = "$ctrl.loginForm.password" id = "password" type = "password" name = "password" autocomplete = "on" required>
+                        <span ng-messages = "$ctrl.loginForm.form.password.$error" class = "login-element-error">
+                            <div ng-show = "$ctrl.loginForm.form.password.$invalid && 
+                            ($ctrl.loginForm.form.$submitted || $ctrl.loginForm.form.password.$dirty)">
+                                <span ng-message = "required">This field is required.</span>
+                            </div>
+                        </span>
+                    </div>
+                    <div class = "login-submit-container">
+                        <button type = "submit" ng-disabled = "$ctrl.loginForm.submitted && !$ctrl.loginError" ng-click = "$ctrl.onFormSubmit()">
+                            Sign in
+                        </button>
+                    </div>
+                </form>
+        </div>
+        <div class = "login-flash-msg" ng-show = "$ctrl.loginError && !$ctrl.hideFlashMsg">
+            <div class = "login-flash-content" ng-class = "{'login-error': $ctrl.loginError}">
+                <i class = "fas fa-exclamation-circle login-flash-icon"></i>
+                <span>Invalid username or password.</span>
+                <div class = "login-flash-close-container" ng-click = "$ctrl.hideFlashMsg = true">
+                    <i class = "fas fa-times"></i>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+</div>

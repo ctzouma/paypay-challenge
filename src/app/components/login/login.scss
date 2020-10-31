@@ -1,0 +1,128 @@
+@use '../../var' as v; 
+
+.login-content-container {
+    line-height: 1.5;
+    padding: 0 20px;
+
+    .login-form-container {
+        border: none;
+        margin: 100px auto 0;
+        width: 400px;
+        padding-right: 15px;
+        padding-left: 15px;
+
+        .login-form {
+            box-shadow: 0 0 0 1px #e5e5e5;
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+            padding: 15px;
+
+            form {
+                .login-form-element {
+                    margin-bottom: 1rem;
+    
+                    label {
+                        margin-bottom: 0.5rem;
+                        font-weight: 600;
+                        display: inline-block;
+                    }
+    
+                    input {
+                        display: block;
+                        width: 100%;
+                        height: 34px;
+
+                        &.ng-invalid.ng-dirty {
+                            border-color: v.$c-error;
+                            transition: none;
+
+                            &:focus {
+                                border-width: 2px;
+                                box-shadow: none;
+                                color: v.$c-error;
+                            }
+                        }
+                    }
+
+                    .login-element-error {
+                        color: v.$c-error;
+                    }
+                }
+
+                &.ng-submitted .login-form-element {
+                    input.ng-invalid {
+                        border-color: v.$c-error;
+                        transition: none;
+
+                        &:focus {
+                            border-width: 2px;
+                            box-shadow: none;
+                            color: v.$c-error;
+                        }
+                    }
+                }
+
+                .login-submit-container {
+                    margin-top: 16px;
+
+                    button {
+                        display: block;
+                        border: 1px solid #007aba;
+                        line-height: 20px;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        cursor: pointer;
+                        color: #fff;
+                        background-color: v.$c-blue;
+                        transition: background-color 100ms linear, border-color 100ms linear, color 100ms linear, box-shadow 100ms linear;
+                        width: 100%;
+                        padding: 6px 0;
+
+                        &:hover,  &:focus {
+                            background-color: #005d92;
+                            border-color: #00436a;
+                        }
+
+                        &[disabled] {
+                            background-color: #fafafa !important;
+                            border-color: #dfdfdf !important;
+                            color: #919191 !important;
+                            cursor: default !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        .login-flash-msg {
+            margin-top: 16px;
+            font-size: 14px;
+
+            .login-flash-content {
+                 margin-bottom: 0.5rem;
+                 margin-top: 10px;
+                 padding: 16px 32px 16px 16px;
+                 position: relative;
+
+                 &.login-error {
+                     color: #ae1800;
+                     background-color: #fdd4cd;
+                 }
+
+                 .login-flash-icon {
+                     margin-right: 0.25rem;
+                     fill: currentColor;
+                 }
+
+                 .login-flash-close-container {
+                     padding: 18px 16px 16px;
+                     position: absolute;
+                     top: 0;
+                     right: 0;
+                     bottom: 0;
+                     cursor: pointer;
+                 }
+            }
+        }
+    }
+}

@@ -8,6 +8,9 @@ enum ApiMethod {
     DELETE = "DELETE"
 }
 
+/**
+ * Application's API service to have all API defined in one place, to be injected as needed
+ */
 export class ApiService {
 
     private readonly userBase = '/api/user'

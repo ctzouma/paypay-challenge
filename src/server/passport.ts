@@ -5,7 +5,6 @@ import * as db from './database';
 import { NextFunction, Request, Response } from 'express';
 
 passport.serializeUser<any, any>((user, done) => {
-    console.log(`serializing user: ${user.username}`)
     done(null, user.id);
 });
 
