@@ -7,9 +7,7 @@ export class MainController implements angular.IComponentController {
     constructor(private $log: angular.ILogService, private $location: angular.ILocationService,
         private userService: UserService) {
         $log.debug(`${MainController.name} constr`);
-        //  Check authentication
-         if (!userService.isAuthenticated()) {
-            $location.url('/login');
-        }
+        //  Check if we are able to set up the User
+        userService.setUpUser();
     }
 }

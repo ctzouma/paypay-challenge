@@ -22,8 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //Start a session - session secret something obvious and hardcoded for the sake of simplicity
 app.use(session({
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     secret: 'secret',
     cookie: { maxAge: 60 * 60 * 1000} // 1 hour
 }));
@@ -42,12 +42,15 @@ if (!isProd) {
 }
 
 // ### API endpoints ###
-app.get('/logout', passportConfig.isAuthenticated, userController.logout);
-app.get('/login', (req, res) => res.redirect('/'));
 app.post(`${userBase}/login`, userController.postLogin);
+app.get('/logout', passportConfig.isAuthenticated, userController.logout);
 app.get(`${userBase}/info`, passportConfig.isAuthenticated, userController.getUserInfo);
 app.get(`${userBase}/:id`, passportConfig.isAuthenticated, userController.getUserById);
 app.get(`${userBase}s`, passportConfig.isAuthenticated, userController.getUsers);
+app.all('*', (req, res, next) => {
+    // Redirect everything back to content base if not caught above
+    res.redirect('/');
+})
 // ######################
 
 export default app;

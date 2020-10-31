@@ -6,7 +6,7 @@
 
     .login-form-container {
         border: none;
-        margin: 100px auto 0;
+        margin: 80px auto 0;
         width: 400px;
         padding-right: 15px;
         padding-left: 15px;
@@ -79,7 +79,7 @@
                         padding: 6px 0;
 
                         &:hover,  &:focus {
-                            background-color: #005d92;
+                            background-color: v.$c-dark-blue;
                             border-color: #00436a;
                         }
 

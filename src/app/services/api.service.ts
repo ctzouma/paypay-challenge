@@ -8,6 +8,10 @@ enum ApiMethod {
     DELETE = "DELETE"
 }
 
+enum ErrorCodes {
+    UNAUTHORIZED = 401
+}
+
 /**
  * Application's API service to have all API defined in one place, to be injected as needed
  */
@@ -19,9 +23,8 @@ export class ApiService {
         userInfo: `${this.userBase}/info`
     }
 
-    static $inject = ['$log', '$http', '$q'];
-    constructor(private $log: angular.ILogService, private $http: angular.IHttpService,
-            private $q: angular.IQService) {
+    static $inject = ['$log', '$http'];
+    constructor(private $log: angular.ILogService, private $http: angular.IHttpService) {
     }
 
     /**
@@ -41,18 +44,19 @@ export class ApiService {
     }
 
     /**
-     * [GET] Request for your user info
+     * [GET] Get the user's information
      */
-    getUserInfo(): angular.IPromise<User> {
+    getUserInfo(): angular.IPromise<User | null> {
         this.debug('getUserInfo()');
         const config = this.getApiConfig(ApiMethod.GET, this.urls.userInfo);
         return this.$http(config).then((resp: angular.IHttpResponse<any>) => {
-            if (resp.data.success) {
-                return resp.data.result;
-            }
-            return null;
-        }).catch((err) => {
-            this.handleRejection(err);
+            let user = {} as User;
+            if (resp.data.success) user = resp.data.result;
+            else this.handleRejection(resp);
+            return user;
+        }).catch((err: angular.IHttpResponse<any>) => {
+            // We do not want to output an error to the console 
+            if (err.status !== ErrorCodes.UNAUTHORIZED) this.handleRejection(err);
             return null;
         })
     }

@@ -7,30 +7,39 @@ import { ApiService, ApiServiceName } from './api.service';
 export class UserService {
     private authenticated = false;
     private authUser = {} as User;
+    private authenticateDefer: angular.IDeferred<User>;
 
-    static $inject = ['$log', '$location', ApiServiceName];
+    static $inject = ['$log', '$location', '$q', ApiServiceName];
     constructor(private $log: angular.ILogService, private $location: angular.ILocationService, 
-                private apiService: ApiService) {}
+                private $q: angular.IQService, private apiService: ApiService) {
+        this.authenticateDefer = $q.defer();
+    }
 
     /**
-     * Sets up the User. Only necessary to be called upon initial login.
-     * @param userData {User=} - If this parameter is received, then set the user directly. If not call the API. 
+     * Sets up the User. 
      */
-    setUpUser(userData?: User): void {
+    setUpUser(): void {
         // Only set up the user once.
         if (!this.authenticated && !this.authUser.id) { 
             this.debug('setUpUser()');
             this.apiService.getUserInfo().then((user) => {
                 if (user) {
                     this.setAuthUser(user);
+                    this.$location.url('/');
+                } else {
+                    this.$location.url('/login');
                 }
-                this.$location.url('/');
+                this.$location.replace();
             });
         }   
     }
 
     isAuthenticated(): boolean {
         return this.authenticated
+    }
+
+    onUserAuthenticate(): angular.IPromise<User> {
+        return this.authenticateDefer.promise;
     }
 
     /**
@@ -40,6 +49,7 @@ export class UserService {
     private setAuthUser(user: User): void {
         this.authUser = user;
         this.authenticated = true;
+        this.authenticateDefer.resolve(user);
         this.$log.debug('Received user info:', user);
     }
 

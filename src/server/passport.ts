@@ -3,15 +3,16 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import * as db from './database';
 import { NextFunction, Request, Response } from 'express';
+import { handleResponse } from './controllers/api';
 
 passport.serializeUser<any, any>((user, done) => {
-    done(null, user.id);
+     done(null, user.id);
 });
 
 passport.deserializeUser((id: number, done) => {
     db.getUserById(id, (err, user) => {
-        if (err) done(err, false);
-        done(null, user);
+        if (err) return done(err, false);
+        return done(null, user);
     });
 });
 
@@ -19,14 +20,16 @@ passport.deserializeUser((id: number, done) => {
  * Passport setting up the user to use in its session
  */
 passport.use(new passportLocal.Strategy((username, password, done) => {
-    db.getUserByName(username, (err, user) => {
-        if (err) return done(err);
-        if (!user) return done(null, false, { message: `Username ${username} not found.`});
-        comparePassword(password, user.password, (err, isMatch) => {
+    process.nextTick(() => {
+        db.getUserByName(username, (err, user) => {
             if (err) return done(err);
-            if (isMatch) return done(undefined, user);
-            return done(undefined, false, {message: 'Invalid username or password'});
-        })
+            if (!user) return done(null, false, { message: `Username ${username} not found.`});
+            comparePassword(password, user.password, (err, isMatch) => {
+                if (err) return done(err);
+                if (isMatch) return done(undefined, user);
+                return done(undefined, false, {message: 'Invalid username or password'});
+            })
+        });
     });
 }));
 
@@ -63,7 +66,8 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
     if (req.isAuthenticated()) {
         return next();
     }
-    return res.redirect('/'); // If not authenticated, redirect to client content base. Let client deal with further routing
+    // If not authenticated, return 401. Let client handle routing
+    return handleResponse(res, false, 401, 'Unauthorized');
 }
 
 /**

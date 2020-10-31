@@ -45,9 +45,10 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
  * @param res {Response} - response
  */
 export const logout = (req: Request, res: Response) => {
-    req.logout();
-    console.log(`Logged out.`);
-    res.redirect('/');
+    return req.session?.destroy(() => {
+        console.log(`Logged out.`);
+        res.redirect('/');
+    });
 };
 
 /**

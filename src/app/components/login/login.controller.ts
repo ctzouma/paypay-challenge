@@ -17,7 +17,10 @@ export class LoginController implements angular.IComponentController {
         private apiService: ApiService, private userService: UserService) {
         $log.debug(`${LoginController.name} constr`);
         // Redirect back to base page if already authenticated and deliberately going back to login page
-        if (userService.isAuthenticated()) $location.url('/');
+        if (userService.isAuthenticated()) {
+            $location.url('/');
+            $location.replace();
+        }
     }
 
     /**
@@ -38,6 +41,7 @@ export class LoginController implements angular.IComponentController {
                         this.loginError = true;
                     } else {
                         this.userService.setUpUser();
+                        this.$location.url('/');
                     }
                 });
         }
