@@ -27,8 +27,4 @@ TBA
 * Admins may add new employees (i.e users), therefore they will be setting the username / password of that employee.
 
 # Assumptions
-* The page will not be refreshed, or the URL directly manipulated. This is due to the fact that manipulation
-of local/session storage would be required to save some sort of application state, which would be annoying
-to deal with when developing and starting/restarting the application.\
-The trade off is every time I refresh the page in development, I will have to re-login. To aid with this,
-I have implemented HMR (Hot Module Replacement) to minimize the need to refresh the browser during development
+TBA
