@@ -5,6 +5,7 @@ import { EmployeeViewComponent, EmployeeViewComponentName } from './components/e
 import { AdminViewComponent, AdminViewComponentName } from './components/admin/admin.component';
 import { MainComponent, MainComponentName } from './components/main/main.component';
 import { HeaderComponent, HeaderComponentName } from './components/header/header.component';
+import { MenuButtonComponent, MenuButtonComponentName } from './components/menu-button/menu-button.component';
 import { ApiService, ApiServiceName } from './services/api.service';
 import { UserService, UserServiceName } from './services/user.service';
 import './app.scss';
@@ -21,6 +22,7 @@ export default angular
 .component(EmployeeViewComponentName, new EmployeeViewComponent())
 .component(AdminViewComponentName, new AdminViewComponent())
 .component(LoginComponentName, new LoginComponent())
+.component(MenuButtonComponentName, new MenuButtonComponent())
 .config(['$routeProvider', '$locationProvider',
     ($routeProvider: angular.route.IRouteProvider, 
     $locationProvider: angular.ILocationProvider) => {

@@ -6,8 +6,8 @@ import { ApiService, ApiServiceName } from './api.service';
  */
 export class UserService {
     private authenticated = false;
-    private authUser = {} as User;
-    private authenticateDefer: angular.IDeferred<User>;
+    private authUser = {} as AuthUser;
+    private authenticateDefer: angular.IDeferred<AuthUser>;
 
     static $inject = ['$log', '$location', '$q', ApiServiceName];
     constructor(private $log: angular.ILogService, private $location: angular.ILocationService, 
@@ -20,7 +20,7 @@ export class UserService {
      */
     setUpUser(): void {
         // Only set up the user once.
-        if (!this.authenticated && !this.authUser.id) { 
+        if (!this.authenticated && !this.authUser.userId) { 
             this.debug('setUpUser()');
             this.apiService.getUserInfo().then((user) => {
                 if (user) {
@@ -38,15 +38,15 @@ export class UserService {
         return this.authenticated
     }
 
-    onUserAuthenticate(): angular.IPromise<User> {
+    onUserAuthenticate(): angular.IPromise<AuthUser> {
         return this.authenticateDefer.promise;
     }
 
     /**
      * Set the user and set app authenticated state.
-     * @param user {User} - the user to set as authenticated
+     * @param user {AuthUser} - the user to set as authenticated
      */
-    private setAuthUser(user: User): void {
+    private setAuthUser(user: AuthUser): void {
         this.authUser = user;
         this.authenticated = true;
         this.authenticateDefer.resolve(user);

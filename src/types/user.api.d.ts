@@ -1,12 +1,16 @@
 type UserData = {
     password: string;
     username: string;
-    id: number;
+    userId: number;
     isAdmin: boolean;
 };
 
 type User = {
     username: string;
-    id: number;
+    userId: number;
     isAdmin: boolean;
 };
+
+type AuthUser = User & {
+    displayName: string;
+}

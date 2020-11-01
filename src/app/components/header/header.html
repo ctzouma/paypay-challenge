@@ -1,9 +1,26 @@
 <header class = "app-header">
     <span class = "header-title">PayPay Challenge</span>
-    <div class = "header-user-panel">
-        <span class = "header-display-name">John Smith</span>
-        <a class = "header-user-button">
-            <i class = "fas fa-user header-user-icon"></i>
-        </a>
+    <div class = "header-user-panel" data-ng-show = "$ctrl.authUser.username">
+        <span class = "header-display-name" ng-bind = "$ctrl.authUser.displayName"></span>
+        <menu-button menu-width = "180px">
+            <button-content>
+                <div class = "header-user-menu-button">
+                    <i class = "fas fa-user header-user-icon"></i>
+                </div>
+                <span class = "dropdown-indicator"></span>
+            </button-content>
+            <menu-content>
+                <div role = "menuitem" class = "user-menu-item username">
+                    Signed in as 
+                    <strong ng-bind = "$ctrl.authUser.username"></strong>
+                </div>
+                <div role = "none" class = "user-menu-divider"></div>
+                <form action = "/logout" method = "POST">
+                    <button type = "submit" role = "menuitem" class = "user-menu-item user-signout">
+                        Sign out
+                    </button>
+                </form>
+            </menu-content>
+        </menu-button>
     </div>
 </header>

@@ -13,7 +13,8 @@ import * as userController from './controllers/user';
 const app = express();
 const port = 8000;
 const apiBase = '/api';
-const userBase = `${apiBase}/user`
+const userBase = `${apiBase}/user`;
+const employeeBase = `${apiBase}/employee`;
 const isProd = process.env.NODE_ENV === 'production';
 
 app.set("port", port);
@@ -43,14 +44,14 @@ if (!isProd) {
 
 // ### API endpoints ###
 app.post(`${userBase}/login`, userController.postLogin);
-app.get('/logout', passportConfig.isAuthenticated, userController.logout);
+app.post('/logout', userController.logout);
 app.get(`${userBase}/info`, passportConfig.isAuthenticated, userController.getUserInfo);
-app.get(`${userBase}/:id`, passportConfig.isAuthenticated, userController.getUserById);
-app.get(`${userBase}s`, passportConfig.isAuthenticated, userController.getUsers);
+// app.get(`${employeeBase}/:id`, passportConfig.isAuthenticated, userController.getEmployeeById);
+// app.get(`${employeeBase}s`, passportConfig.isAuthenticated, userController.getEmployees);
 app.all('*', (req, res, next) => {
     // Redirect everything back to content base if not caught above
     res.redirect('/');
-})
+});
 // ######################
 
 export default app;

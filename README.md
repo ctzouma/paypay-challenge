@@ -27,4 +27,4 @@ TBA
 * Admins may add new employees (i.e users), therefore they will be setting the username / password of that employee.
 
 # Assumptions
-TBA
+* Assuming each employee has only one performance review of their own each

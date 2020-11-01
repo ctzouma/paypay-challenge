@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 import { handleResponse } from './controllers/api';
 
 passport.serializeUser<any, any>((user, done) => {
-     done(null, user.id);
+     done(null, user.userId);
 });
 
 passport.deserializeUser((id: number, done) => {

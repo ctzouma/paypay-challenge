@@ -1,0 +1,94 @@
+@use "../../var" as v;
+
+.dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    right: 8px;
+    left: auto;
+    top: 33px;
+    z-index: 100;
+    border-radius: 6px;
+    padding: 4px 0;
+    margin-top: 2px;
+    border: 1px solid v.$c-drop-menu-border;
+
+    &:before, &:after {
+        position: absolute;
+        display: inline-block;
+        content: "";
+        left: auto;
+    }
+
+    &:after {
+        border: 7px solid transparent;
+        border-bottom: 7px solid #fff;
+        top: -14px;
+        right: 10px;
+    }
+
+    &:before {
+        border: 8px solid transparent;
+        border-bottom: 8px solid v.$c-drop-menu-border;
+        top: -16px;
+        right: 9px;
+    }
+}
+
+summary {
+    display: list-item;
+
+    .menu-button {
+        white-space: nowrap;
+        color: #fff;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &:hover .dropdown-indicator, &:focus .dropdown-indicator {
+        opacity: 0.7;
+        text-decoration: none;
+    }
+}
+
+details {
+    &.details-container {
+        position: relative;
+        width: inherit;
+        height: inherit;
+        text-align: center;
+        line-height: 2;
+
+        &>summary {
+            list-style: none;
+            cursor: pointer;
+        }
+
+        &>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        &[open]>summary:before {
+            position: fixed;
+            z-index: 80;
+            content: " ";
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            cursor: default;
+            background: transparent;
+        }
+    
+        &>summary:before {
+            display: none;
+        }
+
+        &:not(:open)>:not(summary) {
+            display: none;
+        }
+    }
+}

@@ -25,7 +25,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 
     // Authenticate with passport
     passport.authenticate('local', (err: Error, user: any, info: IVerifyOptions) => {
-        if (err) handleResponse(res, false, 401, err.message);
+        if (err) return handleResponse(res, false, 401, err.message);
         if (!user) {
             console.log(`Login failed. Message: ${info.message}`);
             return handleResponse(res, false, 401, info.message);
@@ -40,15 +40,21 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 };
 
 /**
- * [GET] Logout of current session
+ * [POST] Logout of current session
  * @param req {Request} - request
  * @param res {Response} - response
  */
-export const logout = (req: Request, res: Response) => {
-    return req.session?.destroy(() => {
-        console.log(`Logged out.`);
-        res.redirect('/');
-    });
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+    // If not authenticated, just pass to next middleware
+    if (req.user) {
+        // Ensure destruction of session on logout
+        return req.session?.destroy(() => {
+            console.log(`Logged out.`);
+            res.redirect('/');
+        });
+    } else {
+        return next();
+    }
 };
 
 /**
@@ -92,8 +98,10 @@ export const getUserById = (req: Request, res: Response) => {
  * @param res {Response} - response
  */
 export const getUserInfo = (req: Request, res: Response) => {
-    const tUser = transformUser(<UserData>req.user);
-    handleResponse(res, true, 200, "success", tUser);
+    const userData = <UserData>req.user;
+    db.getAuthUserData(userData.userId, (err, data) => {
+        handleResponse(res, true, 200, "success", data);
+    });
 }
 
 /**

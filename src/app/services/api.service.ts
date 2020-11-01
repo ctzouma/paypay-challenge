@@ -46,11 +46,11 @@ export class ApiService {
     /**
      * [GET] Get the user's information
      */
-    getUserInfo(): angular.IPromise<User | null> {
+    getUserInfo(): angular.IPromise<AuthUser | null> {
         this.debug('getUserInfo()');
         const config = this.getApiConfig(ApiMethod.GET, this.urls.userInfo);
         return this.$http(config).then((resp: angular.IHttpResponse<any>) => {
-            let user = {} as User;
+            let user = {} as AuthUser;
             if (resp.data.success) user = resp.data.result;
             else this.handleRejection(resp);
             return user;
