@@ -15,7 +15,7 @@ I will be using the component style design introduced in the latest versions of 
 # Running the project
 * Either unzip the folder, or clone this repository, then run `npm install` in the root directory of the project (where `package.json` is located)
 
-* After `npm install` finishes, run the project with `npm run`. 
+* After `npm install` finishes, run the project with `npm start`. 
 
 * The port has been set to be on port 8000, so accessing http://localhost:8080 will display the web app.
 
