@@ -1,0 +1,111 @@
+<div class = "admin-page-wrapper">
+    <div class = "admin-content-container">
+        <div class = "page-section">
+            <h1 class = "admin-title">Admin Panel</h1>
+        </div>
+        <div class = "page-section">
+            <div class = "admin-emp-section">
+                <span class = "section-title">Employee list</span>
+                <div class = "admin-employee-ctrl">
+                    <button type = "button" class = "btn small" ng-click = "$ctrl.onClickAddEmployee()" title = "Add an employee">
+                        <i class = "fas fa-plus btn-icon"></i>
+                        Add
+                    </button>
+                </div>
+                <div class = "admin-table-container">
+                    <table class = "admin-table">
+                        <thead>
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Username</th>
+                                <th>Admin Privellages</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat = "employee in $ctrl.employees track by employee.employeeId" ng-click = "$ctrl.onClickEmployee(employee)"
+                                ng-class = "{'selected': $ctrl.selectedEmployee === employee}">
+                                <td class = "emp-id" ng-bind = "employee.employeeId"></td>
+                                <td class = "emp-name" ng-bind = "employee.firstname"></td>
+                                <td class = "emp-name" ng-bind = "employee.lastname"></td>
+                                <td ng-bind = "employee.username"></td>
+                                <td ng-bind = "(employee.isAdmin) ? 'Yes' : 'No'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "admin-side-panel" ng-show = "$ctrl.sidePanel.open">
+        <section class = "side-panel">
+            <header class = "side-panel-header-container">
+                <div class = "side-panel-header">
+                    <h2 ng-bind = "$ctrl.sidePanel.title"></h2>
+                    <div class = "side-panel-ctrl">
+                        <button type = "button" title = "Close" class = "side-panel-close-btn" ng-click = "$ctrl.onClickCloseSidePanel()">
+                            <i class = "fas fa-times close-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <div class = "side-panel-content-container">
+                <form name = "$ctrl.sidePanel.form" novalidate autocomplete="off">
+                    <div class = "input-element required">
+                        <label for = "firstname">First name</label>
+                        <input name = "firstname" id = "firstname" type = "text" ng-model = "$ctrl.sidePanel.model.firstname" required
+                                ng-change = "$ctrl.checkDetailsUnchanged()"/>
+                    </div>
+                    <div class = "input-element required">
+                        <label for = "lastname">Last name</label>
+                        <input name = "lastname" id = "lastname" type = "text" ng-model = "$ctrl.sidePanel.model.lastname" required
+                                ng-change = "$ctrl.checkDetailsUnchanged()"/>
+                    </div>
+                    <div class = "input-element required">
+                        <label for = "username">Username</label>
+                        <input name = "username" id = "username" type = "text" ng-model = "$ctrl.sidePanel.model.username" required
+                                autocomplete="username" ng-change = "$ctrl.checkDetailsUnchanged()"/>
+                    </div>
+                    <div ng-show = "$ctrl.sidePanel.showPassword">
+                        <div class = "input-element description" ng-class = "{'required': $ctrl.sidePanel.showPassword}">
+                            <label for = "password">Password</label>
+                            <span>Set an initial password for the user</span>
+                            <input name = "password" id = "password" type = "password" ng-model = "$ctrl.sidePanel.model.password" 
+                                    ng-required = "$ctrl.sidePanel.showPassword" autocomplete="new-password" ng-change = "$ctrl.comparePasswords()"
+                                    ng-class = "{'no-match': $ctrl.isNoMatch()}"/>
+                        </div>
+                        <div class = "input-element" ng-class = "{'required': $ctrl.sidePanel.showPassword}">
+                            <label for = "passwordConfirm">Confirm password</label>
+                            <input name = "passwordConfirm" id = "passwordConfirm" type = "password" ng-model = "$ctrl.passwordConfirm.model"
+                                    ng-required = "$ctrl.sidePanel.showPassword" autocomplete="new-password" ng-change = "$ctrl.comparePasswords()"
+                                    ng-class = "{'no-match': $ctrl.isNoMatch()}"/>
+                        </div>
+                    </div>
+                    <label for = "isAdmin">
+                        <input name = "isAdmin" id = "isAdmin" type = "checkbox" class = "side-panel-checkbox" ng-model = "$ctrl.sidePanel.model.isAdmin"
+                        ng-change = "$ctrl.checkDetailsUnchanged()">
+                        Has admin privellages
+                    </label>
+                    <hr></hr>
+                    <div class = "side-panel-confirm-ctrl">
+                        <button class = "btn" type = "submit" 
+                                ng-disabled = "($ctrl.sidePanel.unchanged || $ctrl.sidePanel.form.$invalid-required)"
+                                ng-if = "!$ctrl.sidePanel.showPassword" ng-click = "$ctrl.onClickSave()">
+                            Save
+                        </button>
+                        <button class = "btn" type = "submit" ng-disabled = "$ctrl.sidePanel.form.$invalid-required || !$ctrl.passwordConfirm.match" 
+                                ng-if = "$ctrl.sidePanel.showPassword" ng-click = "$ctrl.onClickSidePanelAdd()">
+                            <i class = "fas fa-plus btn-icon"></i>
+                            Add
+                        </button>
+                        <button class = "btn red" type = "button" ng-show = "!$ctrl.sidePanel.showPassword" ng-click = "$ctrl.onClickRemove()">
+                            <i class = "btn-icon fas fa-trash-alt"></i>
+                            Remove
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>

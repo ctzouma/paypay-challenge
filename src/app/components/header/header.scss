@@ -16,6 +16,7 @@ button {
     justify-content: space-between;
     line-height: 1.5;
     z-index: 30;
+    white-space: nowrap;
 
     .header-title {
         font-size: 18px;
@@ -63,6 +64,11 @@ button {
             padding: 4px 8px 4px 16px;
             white-space: nowrap;
             text-overflow: ellipsis;
+            text-decoration: none;
+
+            &.left-align {
+                text-align: left;
+            }
 
             &:not(.username) {
                 &:hover, &:focus {

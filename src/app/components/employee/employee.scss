@@ -1,0 +1,13 @@
+@use '../../var' as v;
+
+.emp-content-container {
+    margin-top: 4px;
+    padding: 0 24px;
+
+    .emp-title-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+    }
+}

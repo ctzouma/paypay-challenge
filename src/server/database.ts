@@ -1,3 +1,4 @@
+import { use } from 'passport';
 import { nextTick } from 'process';
 import sqlite3 from 'sqlite3';
 import {hashPassword} from './passport';
@@ -47,7 +48,7 @@ const createUsers = () => {
                 db.run(insert, ["user5", hashedPassword, false]);
             });
             // Create employees once users are created
-            nextTick(createEmployees); 
+            createEmployees; 
         }
     });
 }
@@ -73,21 +74,77 @@ const createEmployees = () => {
     });
 }
 
+const _updateEmployee = (id: number, data: any, callback: (err: Error, data: any) => void) => {
+    const query = `UPDATE ${employeeTable} set
+    firstname = COALESCE(?, firstname),
+    lastname = COALESCE(?, lastname)
+    WHERE employeeId = ?`;
+    let params = [data.firstname, data.lastname, id];
+    db.run(query, params, function (err: Error, res: any) {
+        callback(err, res);
+    });
+}
+
+const _updateUser = (id: number, data: any, callback: (err: Error, data: any) => void) => {
+    const query = `UPDATE ${userTable} set
+    username = COALESCE(?, username),
+    isAdmin = COALESCE(?, isAdmin)
+    WHERE userId = ?`;
+    let params = [data.username, data.isAdmin, data.userId];
+    db.run(query, params, function (err: Error, res: any) {
+        callback(err, res);
+    });
+}
+
 // ### DB queries
 
 /**
- * Get all Users
+ * Get all employees
  * @param callback 
  */
-export const getUsers = (callback: (err: Error, users: any) => void) => {
-    db.all(`SELECT * FROM ${userTable}`, (err: Error, users: any) => {
-        callback(err, users);
+export const getEmployees = (callback: (err: Error, employees: Employee[]) => void) => {
+    const query = `SELECT e.*, u.username, u.isAdmin FROM ${employeeTable} e
+    LEFT JOIN ${userTable} u ON
+    u.userId = e.user`;
+    db.all(query, (err: Error, employees: Employee[]) => {
+        employees.forEach(employee => {
+            employee.isAdmin = !!(employee.isAdmin); // Converting to boolean - SQLite cannot store boolean
+        });
+        callback(err, employees);
+    });
+}
+
+/**
+ * Get a specific employee by ID
+ * @param id {number} - Employee ID
+ * @param callback 
+ */
+export const getEmployeeById = (id: number, callback: (err: Error, employee: Employee) => void) => {
+    const query = `SELECT e.*, u.username, u.isAdmin FROM ${employeeTable} e
+    LEFT JOIN ${userTable} u ON
+    u.userId = e.user WHERE e.employeeId = ?`
+    db.get(query, [id], (err: Error, employee: Employee) => {
+        employee.isAdmin = !!(employee.isAdmin); // Converting to boolean - SQLite cannot store boolean
+        callback(err, employee);
+    });
+}
+
+export const updateEmployee = (id: number, data: any, callback: (err: Error, data: any) => void) => {
+    const {firstname, lastname, ...rest} = data;
+    let d = {firstname: firstname, lastname: lastname};
+    _updateEmployee(id, d, (err, res) => {
+        if (err) callback(err, res);
+        else {
+            let d = {username: rest.username, isAdmin: (rest.isAdmin) ? 1 : 0, userId: rest.user};
+            _updateUser(id, d, callback);
+        }
+        
     });
 }
 
 /**
  * Get a specific user by username
- * @param username 
+ * @param username {string} User's registered username
  * @param callback 
  */
 export const getUserByName = (username: string, callback: (err: Error, user: UserData) => void) => {
@@ -120,9 +177,10 @@ export const getAuthUserData = (id: number, callback: (err: Error, data: AuthUse
     const query = `SELECT u.userId, u.username, u.isAdmin, e.firstname || ' ' || e.lastname as displayName
     FROM ${userTable} u
     LEFT JOIN ${employeeTable} e ON
-    e.user = u.userId where u.userId = ?`;
+    e.user = u.userId WHERE u.userId = ?`;
     let params = [id];
     db.get(query, params, (err: Error, data: AuthUser) => {
+        data.isAdmin = !!(data.isAdmin); // Converting to boolean - SQLite cannot store boolean
         callback(err, data);
     });
 }

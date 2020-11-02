@@ -1,1 +1,23 @@
-<div ng-show = "$ctrl.userInitialized">Allo</div>
+<div ng-show = "$ctrl.authUser.displayName" class = "emp-content-container">
+    <div class = "page-section">
+        <div class = "emp-title-container">
+            <h1>Welcome, <strong ng-bind = "$ctrl.authUser.displayName"></strong></h1>
+            <a class = "btn small" href = "/admin">
+                <i class = "fas fa-lock btn-icon"></i>
+                Admin
+            </a>
+        </div>
+    </div>
+    <div class = "page-section">
+        <span class = "section-title">Your performance review</span>
+        <div class = "section-content">
+            You are not currently assigned a review.
+        </div>
+    </div>
+    <div class = "page-section">
+        <span class = "section-title">Reviews requested</span>
+        <div class = "section-content">
+            You do not currently have any feedback to submit.
+        </div>
+    </div>
+</div>

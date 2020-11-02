@@ -60,6 +60,7 @@ details {
         height: inherit;
         text-align: center;
         line-height: 2;
+        user-select: none;
 
         &>summary {
             list-style: none;

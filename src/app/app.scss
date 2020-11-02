@@ -1,3 +1,5 @@
+@use './var' as v;
+
 html, body {
     margin: 0;
     padding: 0;
@@ -5,6 +7,7 @@ html, body {
                 Ubuntu, Cantarell, 'Helvetica Neue', sans-serif, "Apple Color Emoji", 
                 "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 13px;
+    height: 100%;
 }
 
 *, *::after, *::before {
@@ -16,14 +19,115 @@ input {
     border: 1px solid #dfdfdf;
     padding: 6px 10px;
     border-radius: 4px;
-    color: #2e2e2e;
+    color: v.$c-input-text;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
     &:focus {
-        color: #2e2e2e;
+        color: v.$c-input-text;
         border-color: #80bdff;
         outline: 0;
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         background-color: #fff;
+    }
+}
+
+.app-main-container {
+    position: fixed;
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.page-section {
+    border-bottom: 1px solid v.$c-border-default;
+    color: v.$c-text;
+    padding: 16px 0;
+    font-size: 14px;
+
+    .section-title {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .section-content {
+        padding-top: 12px;
+    }
+
+    &:last-child {
+        border: 0;
+    }
+}
+
+strong {
+    font-weight: 600;
+}
+
+h1 {
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0;
+}
+
+button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.btn {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    font-weight: 500;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 6px;
+    padding: 5px 16px;
+    border: 1px solid;
+    appearance: none;
+    transition: .2s cubic-bezier(.3,0,.5,1);
+    transition-property: color, background-color, border-color;
+    color: #fff;
+    border-color: rgba(27, 31, 35, 0.15);
+    background-color: v.$c-btn-green;
+    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.03);
+
+    &:hover {
+        transition-duration: 0.1s;
+        background-color: v.$c-btn-green-hover;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    &.red {
+        background-color: v.$c-error;
+
+        &:hover {
+            background-color: #b83616
+        }
+    }
+
+    &.small {
+        padding: 3px 12px;
+        font-size: 12px;
+        line-height: 20px;
+
+        .btn-icon {
+            height: 12px;
+            width: 12px;
+        }
+    }
+
+    &[disabled] {
+        cursor: default;
+        opacity: 0.8;
+        background-color: #94d3a2;
+        border-color: rgba(27, 31, 35, 0.1);
     }
 }

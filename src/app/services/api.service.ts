@@ -17,11 +17,12 @@ enum ErrorCodes {
  */
 export class ApiService {
 
-    private readonly userBase = '/api/user'
+    private readonly userBase = '/api/user';
+    private readonly employeeBase = '/api/employee';
     private readonly urls = {
         login: `${this.userBase}/login`,
         userInfo: `${this.userBase}/info`
-    }
+    };
 
     static $inject = ['$log', '$http'];
     constructor(private $log: angular.ILogService, private $http: angular.IHttpService) {
@@ -59,6 +60,33 @@ export class ApiService {
             if (err.status !== ErrorCodes.UNAUTHORIZED) this.handleRejection(err);
             return null;
         })
+    }
+
+    getEmployees(): angular.IPromise<Employee[]> {
+        this.debug('getEmployees()');
+        const config = this.getApiConfig(ApiMethod.GET, `${this.employeeBase}s`);
+        return this.$http(config).then((resp: angular.IHttpResponse<any>) => {
+            let employees = [] as Employee[];
+            if (resp.data.success) employees = resp.data.result;
+            else this.handleRejection(resp);
+            return employees;
+        }).catch((err: angular.IHttpResponse<any>) => {
+            this.handleRejection(err);
+            return [];
+        });
+    }
+
+    updateEmployee(employee: Employee): angular.IPromise<boolean> {
+        this.debug(`updateEmployee()`);
+        const {employeeId, ...rest} = employee;
+        const config = this.getApiConfig(ApiMethod.PATCH, `${this.employeeBase}/${employeeId}`, null, rest);
+        return this.$http(config).then((resp: angular.IHttpResponse<any>) => {
+            if (resp.data.success) return true;
+            return false;
+        }).catch(err => {
+            this.handleRejection(err);
+            return false;
+        });
     }
 
     /**

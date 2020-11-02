@@ -5,6 +5,18 @@ type UserData = {
     isAdmin: boolean;
 };
 
+type EmployeeData = {
+    firstname: string;
+    lastname: string;
+    employeeId: number;
+    user: number;
+}
+
+type Employee = EmployeeData & {
+    username: string;
+    isAdmin: boolean;
+}
+
 type User = {
     username: string;
     userId: number;

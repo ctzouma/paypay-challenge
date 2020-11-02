@@ -46,8 +46,9 @@ if (!isProd) {
 app.post(`${userBase}/login`, userController.postLogin);
 app.post('/logout', userController.logout);
 app.get(`${userBase}/info`, passportConfig.isAuthenticated, userController.getUserInfo);
-// app.get(`${employeeBase}/:id`, passportConfig.isAuthenticated, userController.getEmployeeById);
-// app.get(`${employeeBase}s`, passportConfig.isAuthenticated, userController.getEmployees);
+app.get(`${employeeBase}/:id`, passportConfig.isAuthenticated, userController.getEmployeeById);
+app.patch(`${employeeBase}/:id`, passportConfig.isAuthenticated, userController.updateEmployee);
+app.get(`${employeeBase}s`, passportConfig.isAuthenticated, userController.getEmployees);
 app.all('*', (req, res, next) => {
     // Redirect everything back to content base if not caught above
     res.redirect('/');

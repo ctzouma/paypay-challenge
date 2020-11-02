@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import e, { Request, Response, NextFunction } from 'express';
 import { handleResponse } from './api';
 import { check, validationResult } from 'express-validator';
 import { IVerifyOptions } from 'passport-local';
@@ -58,37 +58,47 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * [GET] Get a list of users
+ * [GET] Get a list of employees
  * @param req {Request} - request
  * @param res {Response} - response
  */
-export const getUsers = (req: Request, res: Response) => {
-    console.log(`getUsers()`);
-    db.getUsers((err, users: UserData[]) => {
+export const getEmployees = (req: Request, res: Response) => {
+    console.log(`getEmployees()`);
+    db.getEmployees((err, employees: Employee[]) => {
         if (err) handleResponse(res, false, 400, err.message);
         else {
-            const list = users.map((user) => {
-                return transformUser(user);
-            });
-            handleResponse(res, true, 200, "success", list);
+            handleResponse(res, true, 200, "success", employees);
         }
     });
 }
 
 /**
- * [GET] Get a specific user by ID
+ * [GET] Get a specific employee by ID
  * @param req {Request} - request
  * @param res {Response} - response 
  */
-export const getUserById = (req: Request, res: Response) => {
-    let id = parseInt(req.params.id);
-    console.log(`getUserById(): ID = ${id}`);
-    db.getUserById(id, (err, user: UserData) => {
+export const getEmployeeById = (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    console.log(`getEmployeeById(): ID = ${id}`);
+    db.getEmployeeById(id, (err, employee) => {
         if (err) handleResponse(res, false, 400, err.message);
         else {
-            const tUser = transformUser(user);
-            handleResponse(res, true, 200, "success", tUser);
+            handleResponse(res, true, 200, "success", employee);
         }
+    });
+}
+
+/**
+ * [PATCH] - Updates an Employee's details
+ * @param req {Request}
+ * @param res {Response}
+ */
+export const updateEmployee = (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    console.log(`updateEmployee(): ID = ${id}`);
+    db.updateEmployee(id, req.body, (err, resp) => {
+        if (err) handleResponse(res, false, 400, err.message);
+        else handleResponse(res, true, 200, "success", resp)
     });
 }
 
@@ -102,14 +112,4 @@ export const getUserInfo = (req: Request, res: Response) => {
     db.getAuthUserData(userData.userId, (err, data) => {
         handleResponse(res, true, 200, "success", data);
     });
-}
-
-/**
- * A function to strip the password off and send back a clean object to use on the client side
- * @param user {UserData} - the pure user data from the database
- */
-const transformUser = (user: UserData): User => {
-    const {password, ...rest} = user;
-    rest.isAdmin = !!rest.isAdmin;
-    return rest;
 }
