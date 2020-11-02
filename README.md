@@ -17,18 +17,26 @@ I will be using the component style design introduced in the latest versions of 
 
 * The port has been set to be on port 8000, so accessing http://localhost:8080 will display the web app.
 
+* You can login to a few different users. I added 1 admin user and another 5 regular users. The admin\
+account can be accessed with username/password: admin/admin. Similarly, you can access users1-5 with user[1-5]/user[1-5]\
+Just in case, what I mean is that for user1 the username/password is: user1/user1, user2: user2/user2 etc.
+
 
 # High level design
 * You will need to login to the page with your user details.
 
 
-* A user is an employee, and an admin is a user with a flag to check for increased privellages.
+* Both users and admins are employees; an admin is a user with a flag to check for increased privellages (to view/add/remove/update employees)
+and they can also grant elevated privelages to other users.
 
 
 * A regular user will not be able to access the admin page.
 
 
-* Admins may add new employees (i.e users), therefore they will be setting the username / password of that employee.
+* Admins may add new employees (i.e users), therefore they will be setting the username / initial password of that employee.
+
+* You can logout by clicking the icon on the top right of the page (user icon). 
+
 
 # Assumptions
 * Assuming each employee has only one performance review of their own each
