@@ -1,5 +1,5 @@
 # PayPay Coding Challenge
-* The backend for the application will be developed with Node.js, Express.js and SQLite
+* The backend for the application will be developed with Node.js, Express.js and SQLite, authentication provided by Passport.js
 
 
 * The frontend will be developed with AngularJS (version < 2). 
@@ -9,26 +9,36 @@ I will be using the component style design introduced in the latest versions of 
 
 * The project will also leverage TypeScript
 
+* The front end will be bundled with Webpack, and the webpack dev server integrated with Express.js to serve files seemlessly for development
+
 
 # Running the project
 * Either unzip the folder, or clone this repository, then run `npm install` in the root directory of the project (where `package.json` is located)
 
-* After `npm install` finishes, run the project with `npm run`. 
+* After `npm install` finishes, run the project with `npm start`. 
 
-* The port has been set to be on port 8000, so accessing http://localhost:8080 will display the web app.
+* The port has been set to be on port 8000, so accessing http://localhost:8000 will display the web app.
+
+* You can login to a few different users. I added 1 admin user and another 5 regular users. The admin\
+account can be accessed with username/password: admin/admin. Similarly, you can access users1-5 with user[1-5]/user[1-5]\
+Just in case, what I mean is that for user1 the username/password is: user1/user1, user2: user2/user2 etc.
 
 
 # High level design
 * You will need to login to the page with your user details.
 
 
-* A user is an employee, and an admin is a user with a flag to check for increased privellages.
+* Both users and admins are employees; an admin is a user with a flag to check for increased privellages (to view/add/remove/update employees)
+and they can also grant elevated privelages to other users.
 
 
 * A regular user will not be able to access the admin page.
 
 
-* Admins may add new employees (i.e users), therefore they will be setting the username / password of that employee.
+* Admins may add new employees (i.e users), therefore they will be setting the username / initial password of that employee.
+
+* You can logout by clicking the icon on the top right of the page (user icon). 
+
 
 # Assumptions
 * Assuming each employee has only one performance review of their own each
