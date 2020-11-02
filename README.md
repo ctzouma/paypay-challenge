@@ -11,7 +11,11 @@ I will be using the component style design introduced in the latest versions of 
 
 
 # Running the project
-TBA
+* Either unzip the folder, or clone this repository, then run `npm install` in the root directory of the project (where `package.json` is located)
+
+* After `npm install` finishes, run the project with `npm run`. 
+
+* The port has been set to be on port 8000, so accessing http://localhost:8080 will display the web app.
 
 
 # High level design
@@ -28,3 +32,10 @@ TBA
 
 # Assumptions
 * Assuming each employee has only one performance review of their own each
+
+# Unfinished Business
+
+* I was unfortunately not able to finish a large portion of the project, after configuring authentication and all the base of\
+of the project, there wasn't much time left.
+
+* That being said, there are a few API endpoints wired, and the rest would not be so difficult to add in, it is just a question of time :)
