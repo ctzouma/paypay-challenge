@@ -48,7 +48,7 @@ const createUsers = () => {
                 db.run(insert, ["user5", hashedPassword, false]);
             });
             // Create employees once users are created
-            createEmployees; 
+            nextTick(createEmployees); 
         }
     });
 }
