@@ -1,5 +1,5 @@
 # PayPay Coding Challenge
-* The backend for the application will be developed with Node.js, Express.js and SQLite
+* The backend for the application will be developed with Node.js, Express.js and SQLite, authentication provided by Passport.js
 
 
 * The frontend will be developed with AngularJS (version < 2). 
@@ -8,6 +8,8 @@ I will be using the component style design introduced in the latest versions of 
 
 
 * The project will also leverage TypeScript
+
+* The front end will be bundled with Webpack, and the webpack dev server integrated with Express.js to serve files seemlessly for development
 
 
 # Running the project
