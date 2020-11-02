@@ -17,7 +17,7 @@ I will be using the component style design introduced in the latest versions of 
 
 * After `npm install` finishes, run the project with `npm start`. 
 
-* The port has been set to be on port 8000, so accessing http://localhost:8080 will display the web app.
+* The port has been set to be on port 8000, so accessing http://localhost:8000 will display the web app.
 
 * You can login to a few different users. I added 1 admin user and another 5 regular users. The admin\
 account can be accessed with username/password: admin/admin. Similarly, you can access users1-5 with user[1-5]/user[1-5]\
